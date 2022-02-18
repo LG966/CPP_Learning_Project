@@ -56,6 +56,19 @@ Tower_sim : C'est le programme global, coordonne la création des avions, les ra
 Pour les classes `Tower`, `Aircaft`, `Airport` et `Terminal`, listez leurs fonctions-membre publiques et expliquez précisément à quoi elles servent.
 Réalisez ensuite un schéma présentant comment ces différentes classes intéragissent ensemble.
 
+
+-> **Tower**
+- `Tower(Airport& airport_)` : Une Tower est rattachée à un Airport.
+- `WaypointQueue get_instructions(Aircraft& aircraft);` : Donne les instructions à l'avion. Si l'avion est loin, on le rammène près de l'aéroport, s'il est près, on tente de réserver un terminal. Si l'avion a un terminal dedié, alors on lui dit d'y aller.
+- `void arrived_at_terminal(const Aircraft& aircraft);` : Commence le service de l'avion au terminal associé.
+
+-> **Aircraft**
+- `const std::string& get_flight_num()` : getter sur le numéro de flight
+- `float distance_to(const Point3D& p)` : distance de l'avion par rapport à un autre point
+- `display()` : affiche l'avion
+- 
+
+
 Quelles classes et fonctions sont impliquées dans la génération du chemin d'un avion ?
 Quel conteneur de la librairie standard a été choisi pour représenter le chemin ?
 Expliquez les intérêts de ce choix.
