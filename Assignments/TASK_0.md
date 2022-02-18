@@ -9,17 +9,49 @@ Sur quelle touche faut-il appuyer pour ajouter un avion ?
 Comment faire pour quitter le programme ?
 A quoi sert la touche 'F' ?
 
+Les touches disponibles :
+- `c` spawn un avion
+- `x` exit le programme
+- `q` exit le programme
+- `+` zoommer
+- `-` dézoomer
+- `F` full screen
+
 Ajoutez un avion à la simulation et attendez.
 Que est le comportement de l'avion ?
 Quelles informations s'affichent dans la console ?
 
+Lorqu'on ajoute un avion, il spawn quelque part en haut de l'écran, puis atterit. Au bout d'un certain moment, il repart. Ces opérations sont documentés sur la sortie standard du programme.
+
 Ajoutez maintenant quatre avions d'un coup dans la simulation.
 Que fait chacun des avions ?
+
+L'aéroport peut accueillir au maximum 3 avions. Les autres avions sont donc en attente et tournent dans le ciel.
 
 ## B- Analyse du code
 
 Listez les classes du programme à la racine du dossier src/.
 Pour chacune d'entre elle, expliquez ce qu'elle représente et son rôle dans le programme.
+
+Aircraft : C'est un avion. Il tourne dans le ciel, atterit, se ravitaille et repart de l'aéroport.
+
+Aircraft_types : Type d'avion. Il en existe plusieurs.
+
+Airport : Représente un aéroport. Il accueille des avions.
+
+Config : Fichier de configuration. On y trouve des constantes qui sont utilisées dans le reste du code.
+
+Geometry : Petite librairie pour la géomitrie dans un plan (2D)
+
+Main : Permet de lancer le programme
+
+Runway : Piste d'atterrissage
+
+Terminal : Terminal d'atterrissage accueillant un avion à la fois. L'avion est service dedans.
+
+Tower : Tour de contrôle, elle coordonne les avions.
+
+Tower_sim : C'est le programme global, coordonne la création des avions, les raccourcis clavier l'initialisation de l'airport ...
 
 Pour les classes `Tower`, `Aircaft`, `Airport` et `Terminal`, listez leurs fonctions-membre publiques et expliquez précisément à quoi elles servent.
 Réalisez ensuite un schéma présentant comment ces différentes classes intéragissent ensemble.
