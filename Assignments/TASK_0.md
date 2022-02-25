@@ -66,12 +66,36 @@ Réalisez ensuite un schéma présentant comment ces différentes classes intér
 - `const std::string& get_flight_num()` : getter sur le numéro de flight
 - `float distance_to(const Point3D& p)` : distance de l'avion par rapport à un autre point
 - `display()` : affiche l'avion
-- 
+- `move()` : déplace l'avion à son prochain waypoint
+
+-> **Airport**
+- `move()` : avance le service des terminaux
+- `display()` : affiche l'airport
+
+-> **Terminal**
+- `in_use()` : est ce qu'un avion est stationné dans le terminal
+- `is_servicing()` : si un avion est stationné et qu'il est entrain d'être servi
+- `assign_craft()` : assigne un avion au terminal, s'il est assez près
+- `finish_service()` : fini le service et libère l'avion si il n'est plus servi
+- `move()` : fait progresser le service
 
 
 Quelles classes et fonctions sont impliquées dans la génération du chemin d'un avion ?
+
+Le chemin d'un avion est représenté par une suite d'instructions, c'est à dire de `Waypoint`.
+Un `Waypoint` n'est rien d'autre qu'une position dans l'espace (vertex) ainsi qu'un type (aérien, aéroport, terminal).
+
+C'est la `Tower` qui génére les instructions aux avions, pour les diriger vers la piste d'atterrissage, les terminaux ou pour les maintenir en l'air.
+Les avions gérent leur déplacement en se déplaçant vers leur prochain `Waypoint`.
+
 Quel conteneur de la librairie standard a été choisi pour représenter le chemin ?
 Expliquez les intérêts de ce choix.
+
+```cpp
+using WaypointQueue = std::deque<Waypoint>;
+```
+
+Un chemin est donc une file et c'est logique; on exécute les instructions des plus anciennes aux plus récentes.
 
 ## C- Bidouillons !
 
