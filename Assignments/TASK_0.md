@@ -103,10 +103,56 @@ Un chemin est donc une file et c'est logique; on exécute les instructions des p
 Le Concorde est censé pouvoir voler plus vite que les autres avions.
 Modifiez le programme pour tenir compte de cela.
 
+```cpp
+    // Dans aircraft_types.cpp 
+    aircraft_types[2] = new AircraftType { .02f, .45f, .45f, MediaPath { "concorde_af.png" } };
+```
+
+L'avion se crash !
+
 2) Identifiez quelle variable contrôle le framerate de la simulation.
 Ajoutez deux nouveaux inputs au programme permettant d'augmenter ou de diminuer cette valeur.
 Essayez maintenant de mettre en pause le programme en manipulant ce framerate. Que se passe-t-il ?\
 Ajoutez une nouvelle fonctionnalité au programme pour mettre le programme en pause, et qui ne passe pas par le framerate.
+
+```cpp
+    // Dans config.cpp, on modifie cette valeur
+    constexpr unsigned int DEFAULT_TICKS_PER_SEC = 16u;
+```
+
+On ajoute une fonction dans `opengl_interface.cpp` pour modifier le framerate :
+
+```cpp
+void increase_ticks(const int n)
+{
+    ticks_per_sec += n;
+}
+```
+
+On ajoute des fonctions dans `tower_sim.cpp` qui décrémente/incrémente la framerate.
+```cpp
+    GL::keystrokes.emplace('i', []() { GL::increase_ticks(1); });
+    GL::keystrokes.emplace('o', []() { GL::increase_ticks(-1); });
+```
+
+Lorque'on passe à une framerate de 0, le programme crash (Exception en point flottant).
+
+Pour mettre en pause le programme, on crée une constante qui régule la boucle principale du programme :
+
+```cpp
+    void timer(const int step)
+    {
+        if (pause){
+            for (auto& item : move_queue)
+            {
+                item->move();
+            }
+        }
+        glutPostRedisplay();
+        glutTimerFunc(1000u / ticks_per_sec, timer, step + 1);
+    }
+```
+
 
 3) Identifiez quelle variable contrôle le temps de débarquement des avions et doublez-le.
 
