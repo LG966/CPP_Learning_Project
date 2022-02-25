@@ -73,7 +73,7 @@ void display(void)
 
 void timer(const int step)
 {
-    if (pause){
+    if (!pause){
         for (auto& item : move_queue)
         {
             item->move();

@@ -156,6 +156,14 @@ Pour mettre en pause le programme, on crée une constante qui régule la boucle 
 
 3) Identifiez quelle variable contrôle le temps de débarquement des avions et doublez-le.
 
+```cpp
+    constexpr unsigned int SERVICE_CYCLES = 40u;
+```
+
+Cette constante représente le nombre de tick nécessaire pour service un avion. On double donc cette constante. 
+(Move() de terminal incrémente cette valeur)
+
+
 4) Lorsqu'un avion a décollé, il réattérit peu de temps après.
 Faites en sorte qu'à la place, il soit retiré du programme.\
 Indices :\
