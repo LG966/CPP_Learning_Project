@@ -172,7 +172,20 @@ Pourquoi n'est-il pas sûr de procéder au retrait de l'avion dans cette fonctio
 A quel endroit de la callstack pourriez-vous le faire à la place ?\
 Que devez-vous modifier pour transmettre l'information de la première à la seconde fonction ?
 
-5) Lorsqu'un objet de type `Displayable` est créé, il faut ajouter celui-ci manuellement dans la liste des objets à afficher.
+L'avion peut être supprimé au moment du lift-off, dans la fonction `Aircraft::operate_landing_gear()`.
+Seulement si on essaie de le supprimer au sein-même de la fonction, alors le programme plante, ce qui est logique.
+
+
+
+```cpp
+    if (ground_before && !ground_after)
+    {
+        std::cout << flight_number << " lift off" << std::endl;
+        delete this;
+    }
+```
+
+1) Lorsqu'un objet de type `Displayable` est créé, il faut ajouter celui-ci manuellement dans la liste des objets à afficher.
 Il faut également penser à le supprimer de cette liste avant de le détruire.
 Faites en sorte que l'ajout et la suppression de `display_queue` soit "automatiquement gérée" lorsqu'un `Displayable` est créé ou détruit.
 Pourquoi n'est-il pas spécialement pertinent d'en faire de même pour `DynamicObject` ?

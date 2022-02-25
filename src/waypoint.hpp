@@ -8,7 +8,8 @@ enum WaypointType
 {
     wp_air,
     wp_ground,
-    wp_terminal
+    wp_terminal,
+    wp_destroy
 };
 
 class Waypoint : public Point3D
