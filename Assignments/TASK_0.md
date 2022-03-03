@@ -175,9 +175,8 @@ Que devez-vous modifier pour transmettre l'information de la première à la sec
 L'avion peut être supprimé au moment du lift-off, dans la fonction `Aircraft::operate_landing_gear()`.
 Seulement si on essaie de le supprimer au sein-même de la fonction, alors le programme plante, ce qui est logique.
 
-
-
 ```cpp
+    // Cette solution barbare ne marche pas !
     if (ground_before && !ground_after)
     {
         std::cout << flight_number << " lift off" << std::endl;
@@ -185,7 +184,10 @@ Seulement si on essaie de le supprimer au sein-même de la fonction, alors le pr
     }
 ```
 
-1) Lorsqu'un objet de type `Displayable` est créé, il faut ajouter celui-ci manuellement dans la liste des objets à afficher.
+Une solution consiste à ajouter un waypoint de type `destroy` au niveau du lift-off, de sorte que si le prochain waypoint dans move est de type destroy, alors set un flag `_to_delete` à true sur l'objet `displayable`. Dans la fonction qui appelle `move()` sur chaque objet,
+on supprime tous les objets avec ce flag de la queue, en appelant leur destructeur. Ce destructeur se charge de retirer l'objet de la display_queue.
+
+5) Lorsqu'un objet de type `Displayable` est créé, il faut ajouter celui-ci manuellement dans la liste des objets à afficher.
 Il faut également penser à le supprimer de cette liste avant de le détruire.
 Faites en sorte que l'ajout et la suppression de `display_queue` soit "automatiquement gérée" lorsqu'un `Displayable` est créé ou détruit.
 Pourquoi n'est-il pas spécialement pertinent d'en faire de même pour `DynamicObject` ?

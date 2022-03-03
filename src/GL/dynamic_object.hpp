@@ -7,6 +7,7 @@ namespace GL {
 class DynamicObject
 {
 public:
+    bool _to_delete = false;
     virtual ~DynamicObject() {}
 
     virtual void move() = 0;

@@ -63,7 +63,7 @@ void Aircraft::operate_landing_gear()
         if (ground_before && !ground_after)
         {
             std::cout << flight_number << " lift off" << std::endl;
-            this->waypoints.push_back();
+            this->add_waypoint(Waypoint { Point3D {}, wp_destroy }, true);
         }
         else if (!ground_before && ground_after)
         {
@@ -112,6 +112,10 @@ void Aircraft::move()
             else
             {
                 operate_landing_gear();
+            }
+            if (waypoints.front().type == wp_destroy)
+            {
+                _to_delete = true;
             }
             waypoints.pop_front();
         }
