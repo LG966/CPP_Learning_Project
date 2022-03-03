@@ -18,7 +18,7 @@ protected:
     float z = 0;
 
 public:
-    Displayable(const float z_) : z { z_ } {}
+    Displayable(const float z_) : z { z_ } { display_queue.emplace_back(this); }
     virtual ~Displayable()
     {
         auto dq_it = display_queue.begin();
