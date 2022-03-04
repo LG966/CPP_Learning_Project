@@ -7,6 +7,7 @@ Chaque avion créé est ensuite placé dans les files `GL::display_queue` et `GL
 
 Si à un moment quelconque du programme, vous souhaitiez accéder à l'avion ayant le numéro de vol "AF1250", que devriez-vous faire ?
 
+On doit itérer sur la move_queue pour trouver les avions. Seulement, on itère sur des `dynamic_object`, et on ne peut pas faire de cast pour pour manipuler des avions car on peut tomber sur un terminal par exemple.
 ---
 
 ## Objectif 1 - Référencement des avions
@@ -20,6 +21,9 @@ Vous avez 2 choix possibles :
 - donner ce rôle à une classe existante.
 
 Réfléchissez aux pour et contre de chacune de ces options.
+
+Si on crée une classe, alors on sépare clairement les responsabilités entre les classes, ce qui est plus OOP-friendly.
+A l'inverse, si on rajoute cette responsabilité à une classe existante, alors on va se retrouver avec une classe qui a plusieurs responsabilités. Dès lors, difficile de deviner que c'est cette classe qui possède cette responsabilité, et le code devient plus complexe à comprendre et maintenir.
 
 Pour le restant de l'exercice, vous partirez sur le premier choix.
 
