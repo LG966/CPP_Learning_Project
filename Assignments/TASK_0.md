@@ -201,14 +201,22 @@ Cela n'est pas grave tant que ce nombre est petit, mais pour préparer l'avenir,
 Modifiez le code afin d'utiliser un conteneur STL plus adapté. Normalement, à la fin, la fonction `find_craft_and_terminal(const Aicraft&)` ne devrait plus être nécessaire.
 
 On peut utiliser une unordered_map. La clé sera l'avion, la valeur sera le terminal.
+On utilise alors la méthode `find()` sur la map qui a le même comportement que `find_craft_and_terminal`.
 
 
 ## D- Théorie
 
 1) Comment a-t-on fait pour que seule la classe `Tower` puisse réserver un terminal de l'aéroport ?
 
+La structure associant les avions aux terminaux est privée. Cela signifie donc que seul la classe `Tower` peut la modifier directement.
+
+
 2) En regardant le contenu de la fonction `void Aircraft::turn(Point3D direction)`, pourquoi selon-vous ne sommes-nous pas passer par une réference ?
 Pensez-vous qu'il soit possible d'éviter la copie du `Point3D` passé en paramètre ?
+
+On modifie le paramètre direction en appelant la méthode `cap_length` dessus. Ainsi, si c'est une référence, on va modifier l'objet original. Or `turn` est appelé avec l'argument `target - pos - speed` dans `aircraft.cpp`. Ici ça ne poserait donc pas problème de passer une référence et de la modifier. 
+
+Toutefois, la nature de la fonction n'est pas de modifier la direction qui lui est passé en paramètre, il est donc préférable ici de faire une copie. Une autre solution consiste à effectivement passer une référence constante en paramètre, et d'en faire une copie non constante, ce qui revient à la même chose au final.
 
 ## E- Bonus
 
