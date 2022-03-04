@@ -71,23 +71,6 @@ void display(void)
     glutSwapBuffers();
 }
 
-void clean_move_queue()
-{
-    auto mq_it = move_queue.begin();
-    while (mq_it != move_queue.end())
-    {
-        if ((*mq_it)->_to_delete)
-        {
-            delete *mq_it;
-            mq_it = move_queue.erase(mq_it);
-        }
-        else
-        {
-            ++mq_it;
-        }
-    }
-}
-
 void timer(const int step)
 {
     if (!pause)
@@ -97,9 +80,6 @@ void timer(const int step)
             item->move();
         }
     }
-
-    clean_move_queue();
-
     glutPostRedisplay();
     glutTimerFunc(1000u / ticks_per_sec, timer, step + 1);
 }
