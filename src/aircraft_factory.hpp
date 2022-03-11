@@ -36,15 +36,14 @@ public:
     {
         assert(_airport); // make sure the airport is initialized before creating aircraft
 
-        std::cout << "HELLO" << std::endl;
-
         const std::string flight_number = get_flight_number();
 
         const float angle       = (rand() % 1000) * 2 * 3.141592f / 1000.f; // random angle between 0 and 2pi
         const Point3D start     = Point3D { std::sin(angle), std::cos(angle), 0 } * 3 + Point3D { 0, 0, 2 };
         const Point3D direction = (-start).normalize();
 
-        Aircraft* aircraft = new Aircraft { type, flight_number, start, direction, _airport->get_tower() };
+        std::unique_ptr<Aircraft> aircraft(
+            new Aircraft { type, flight_number, start, direction, _airport->get_tower() });
         // GL::display_queue.emplace_back(aircraft);
         _aircraftManager.add_aircraft(aircraft);
     }
