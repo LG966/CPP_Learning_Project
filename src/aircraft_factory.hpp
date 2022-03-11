@@ -4,6 +4,8 @@
 #include "airport.hpp"
 #include "tower_sim.hpp"
 
+#include <optional>
+
 class AircraftFactory
 {
 private:
@@ -55,5 +57,14 @@ public:
     {
         _aircraft_types.emplace_back(
             new AircraftType { max_ground_speed_, max_air_speed_, max_accel_, sprite });
+    }
+
+    std::optional<std::string> get_nth_airline(const size_t n)
+    {
+        if (n < _airlines.size())
+        {
+            return std::optional<std::string>(_airlines[n]);
+        }
+        return std::optional<std::string>();
     }
 };

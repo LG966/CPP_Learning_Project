@@ -43,6 +43,26 @@ void TowerSimulation::create_keystrokes()
     GL::keystrokes.emplace('i', []() { GL::increase_ticks(1); });
     GL::keystrokes.emplace('o', []() { GL::increase_ticks(-1); });
     GL::keystrokes.emplace('p', []() { GL::pause_now(); });
+
+    for (size_t i = 0; i < 7; i++)
+    {
+        GL::keystrokes.emplace('0' + i,
+                               [this, i]()
+                               {
+                                   auto airline = aircraft_factory->get_nth_airline(i);
+                                   if (!airline.has_value())
+                                   {
+                                       std::cout << "This airline has not been assigned" << std::endl;
+                                   }
+                                   else
+                                   {
+                                       std::cout
+                                           << "airline [" + airline.value() + "] has "
+                                           << aircraft_manager.count_aircraft_with_airline(airline.value())
+                                           << " aircrafts" << std::endl;
+                                   }
+                               });
+    }
 }
 
 void TowerSimulation::display_help() const

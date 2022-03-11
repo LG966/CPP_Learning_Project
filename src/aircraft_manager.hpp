@@ -2,6 +2,7 @@
 
 #include "aircraft.hpp"
 
+#include <algorithm>
 #include <vector>
 
 class AircraftManager : public GL::DynamicObject
@@ -30,4 +31,11 @@ public:
     }
 
     void add_aircraft(std::unique_ptr<Aircraft>& aircraft) { _aircrafts.emplace_back(std::move(aircraft)); }
+
+    int count_aircraft_with_airline(const std::string& airline)
+    {
+        auto is_from_airline = [airline](const std::unique_ptr<Aircraft>& aircraft)
+        { return (*aircraft).get_flight_num().rfind(airline, 0) != std::string::npos; };
+        return std::count_if(_aircrafts.begin(), _aircrafts.end(), is_from_airline);
+    }
 };
