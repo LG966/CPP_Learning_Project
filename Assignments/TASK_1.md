@@ -89,6 +89,8 @@ Il est rare, mais possible, que deux avions soient créés avec le même numéro
 Ajoutez un conteneur dans votre classe `AircraftFactory` contenant tous les numéros de vol déjà utilisés.
 Faites maintenant en sorte qu'il ne soit plus possible de créer deux fois un avion avec le même numéro de vol.
 
+Solution retenue : utiliser un unordered_set.   
+
 ### C - Data-driven AircraftType (optionnel)
 
 On aimerait pouvoir charger les paramètres des avions depuis un fichier.
