@@ -130,6 +130,12 @@ void Aircraft::move()
         }
         else
         {
+            fuel--;
+            if (fuel == 0)
+            {
+                std::cout << flight_number << " is crashing !" << std::endl;
+                this->add_waypoint(Waypoint { Point3D {}, wp_destroy }, true);
+            }
             // if we are in the air, but too slow, then we will sink!
             const float speed_len = speed.length();
             if (speed_len < SPEED_THRESHOLD)
