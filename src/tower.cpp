@@ -64,3 +64,29 @@ void Tower::arrived_at_terminal(const Aircraft& aircraft)
     assert(it != reserved_terminals.end());
     airport.get_terminal(it->second).start_service(aircraft);
 }
+
+WaypointQueue Tower::reserve_terminal(Aircraft& aircraft)
+{
+    if (aircraft.distance_to(airport.pos) < 5)
+    {
+        auto waypoints = airport.reserve_terminal(aircraft);
+        if (!waypoints.first.empty())
+        {
+            reserved_terminals.emplace(&aircraft, waypoints.second);
+            return waypoints.first;
+        }
+    }
+    return {};
+}
+
+void Tower::cancel_reservation_terminal(Aircraft& aircraft)
+{
+    const auto it = reserved_terminals.find(&aircraft);
+    if (it != reserved_terminals.end())
+    {
+        // reset terminal
+        airport.get_terminal(it->second).finish_service();
+        // then delete reservation
+        reserved_terminals.erase(it);
+    }
+}

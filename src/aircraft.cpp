@@ -63,7 +63,7 @@ void Aircraft::operate_landing_gear()
         if (ground_before && !ground_after)
         {
             std::cout << flight_number << " lift off" << std::endl;
-            this->add_waypoint(Waypoint { Point3D {}, wp_destroy }, true);
+            this->add_waypoint(Waypoint { Point3D {}, wp_destroy }, false);
         }
         else if (!ground_before && ground_after)
         {
@@ -91,6 +91,22 @@ void Aircraft::add_waypoint(const Waypoint& wp, const bool front)
 
 void Aircraft::move()
 {
+    if (!waypoints.empty() && waypoints.back().type == wp_destroy)
+    {
+        std::cout << "disapear" << std::endl;
+        _to_delete = true;
+        return;
+    }
+
+    if (this->is_circling())
+    {
+        WaypointQueue wp = control.reserve_terminal(*this);
+        if (!wp.empty())
+        {
+            waypoints = std::move(wp);
+        }
+    }
+
     if (waypoints.empty())
     {
         waypoints = control.get_instructions(*this);
@@ -113,10 +129,6 @@ void Aircraft::move()
             {
                 operate_landing_gear();
             }
-            if (waypoints.front().type == wp_destroy)
-            {
-                _to_delete = true;
-            }
             waypoints.pop_front();
         }
 
@@ -134,7 +146,9 @@ void Aircraft::move()
             if (fuel == 0)
             {
                 std::cout << flight_number << " is crashing !" << std::endl;
-                this->add_waypoint(Waypoint { Point3D {}, wp_destroy }, true);
+                this->add_waypoint(Waypoint { Point3D {}, wp_destroy }, false);
+                // cancel terminal reservation in case the aircraft was heading to a terminal
+                control.cancel_reservation_terminal(*this);
             }
             // if we are in the air, but too slow, then we will sink!
             const float speed_len = speed.length();
@@ -152,4 +166,18 @@ void Aircraft::move()
 void Aircraft::display() const
 {
     type.texture.draw(project_2D(pos), { PLANE_TEXTURE_DIM, PLANE_TEXTURE_DIM }, get_speed_octant());
+}
+
+bool Aircraft::has_terminal() const
+{
+    if (!waypoints.empty())
+    {
+        return this->waypoints.back().type == WaypointType::wp_terminal;
+    }
+    return false;
+}
+
+bool Aircraft::is_circling() const
+{
+    return !is_at_terminal && !has_terminal() && !landing_gear_deployed;
 }
