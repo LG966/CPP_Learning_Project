@@ -22,6 +22,17 @@ private:
 public:
     void move()
     {
+        // sort aircrafts : has a terminal -> low on fuel -> high on fuel
+
+        std::sort(_aircrafts.begin(), _aircrafts.end(),
+                  [](const std::unique_ptr<Aircraft>& a1, const std::unique_ptr<Aircraft>& a2)
+                  {
+                      if (a2->has_terminal() || a2->fuel < a1->fuel)
+                          return true;
+                      else
+                          return false;
+                  });
+
         for (auto& aircraft : _aircrafts)
         {
             aircraft->move();

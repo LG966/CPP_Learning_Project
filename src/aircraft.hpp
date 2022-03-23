@@ -67,4 +67,5 @@ public:
     void move() override;
 
     friend class Tower;
+    friend class AircraftManager;
 };

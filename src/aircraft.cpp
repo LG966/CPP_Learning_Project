@@ -93,7 +93,6 @@ void Aircraft::move()
 {
     if (!waypoints.empty() && waypoints.back().type == wp_destroy)
     {
-        std::cout << "disapear" << std::endl;
         _to_delete = true;
         return;
     }
