@@ -3,6 +3,7 @@
 #include "GL/displayable.hpp"
 #include "GL/dynamic_object.hpp"
 #include "GL/texture.hpp"
+#include "aircraft_manager.hpp"
 #include "airport_type.hpp"
 #include "geometry.hpp"
 #include "img/image.hpp"
@@ -20,6 +21,10 @@ private:
     const GL::Texture2D texture;
     std::vector<Terminal> terminals;
     Tower tower;
+    AircraftManager& _aircraft_manager;
+    u_int fuel_stock       = 0;
+    u_int ordered_fuel     = 0;
+    u_int next_refill_time = 0;
 
     // reserve a terminal
     // if a terminal is free, return
@@ -51,26 +56,42 @@ private:
     Terminal& get_terminal(const size_t terminal_num) { return terminals.at(terminal_num); }
 
 public:
-    Airport(const AirportType& type_, const Point3D& pos_, const img::Image* image, const float z_ = 1.0f) :
+    Airport(const AirportType& type_, const Point3D& pos_, const img::Image* image,
+            AircraftManager& aircraft_manager, const float z_ = 1.0f) :
         GL::Displayable { z_ },
         type { type_ },
         pos { pos_ },
         texture { image },
         terminals { type.create_terminals() },
-        tower { *this }
+        tower { *this },
+        _aircraft_manager { aircraft_manager }
     {}
 
     Tower& get_tower() { return tower; }
 
     void display() const override { texture.draw(project_2D(pos), { 2.0f, 2.0f }); }
 
+    friend class Tower;
+
     void move() override
     {
+        if (next_refill_time == 0)
+        {
+            fuel_stock += ordered_fuel;
+            std::cout << "Airport has received " << ordered_fuel << "l of fuel..." << std::endl;
+            ordered_fuel = std::min(5000, (int)_aircraft_manager.get_required_fuel());
+            std::cout << "Ordered " << ordered_fuel << "l of fuel..." << std::endl;
+            next_refill_time = 100;
+            std::cout << "New stock : " << fuel_stock << "l of fuel..." << std::endl;
+        }
+        else
+        {
+            next_refill_time--;
+        }
         for (auto& t : terminals)
         {
+            t.refill_aircraft_if_needed(fuel_stock);
             t.move();
         }
     }
-
-    friend class Tower;
 };

@@ -49,4 +49,17 @@ public:
         { return (*aircraft).get_flight_num().rfind(airline, 0) != std::string::npos; };
         return std::count_if(_aircrafts.begin(), _aircrafts.end(), is_from_airline);
     }
+
+    unsigned int get_required_fuel()
+    {
+        unsigned int total = 0;
+        for (const auto& aircraft : _aircrafts)
+        {
+            if (aircraft->is_low_on_fuel() && aircraft->has_terminal())
+            {
+                total += aircraft->fuel;
+            }
+        }
+        return total;
+    }
 };
