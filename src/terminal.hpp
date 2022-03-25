@@ -49,7 +49,7 @@ public:
 
     void refill_aircraft_if_needed(u_int& fuel_stock)
     {
-        if (in_use() && current_aircraft->is_low_on_fuel())
+        if (in_use() && current_aircraft->_is_at_terminal() && current_aircraft->is_low_on_fuel())
         {
             current_aircraft->refill(fuel_stock);
         }

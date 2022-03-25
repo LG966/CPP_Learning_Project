@@ -67,6 +67,7 @@ public:
     void move() override;
     bool is_low_on_fuel() const;
     void refill(u_int& fuel_stock);
+    bool _is_at_terminal() { return is_at_terminal; }
 
     friend class Tower;
     friend class AircraftManager;
