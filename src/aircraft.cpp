@@ -145,10 +145,9 @@ void Aircraft::move()
             fuel--;
             if (fuel == 0)
             {
-                std::cout << flight_number << " is crashing !" << std::endl;
-                this->add_waypoint(Waypoint { Point3D {}, wp_destroy }, false);
                 // cancel terminal reservation in case the aircraft was heading to a terminal
                 control.cancel_reservation_terminal(*this);
+                throw AircraftCrash { flight_number + " is crashing !" };
             }
             // if we are in the air, but too slow, then we will sink!
             const float speed_len = speed.length();

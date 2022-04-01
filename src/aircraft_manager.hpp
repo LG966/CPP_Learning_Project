@@ -10,6 +10,7 @@ class AircraftManager : public GL::DynamicObject
 
 private:
     std::vector<std::unique_ptr<Aircraft>> _aircrafts;
+    unsigned int crash_count = 0;
 
     void destroy_aircrafts()
     {
@@ -27,15 +28,29 @@ public:
         std::sort(_aircrafts.begin(), _aircrafts.end(),
                   [](const std::unique_ptr<Aircraft>& a1, const std::unique_ptr<Aircraft>& a2)
                   {
-                      if (a2->has_terminal() || a2->fuel < a1->fuel)
+                      if (a1->has_terminal() && a2->has_terminal())
+                      {
+                          return a2->fuel > a1->fuel;
+                      }
+                      if (a1->has_terminal())
                           return true;
-                      else
+                      if (a2->has_terminal())
                           return false;
+                      else
+                          return a2->fuel > a1->fuel;
                   });
 
         for (auto& aircraft : _aircrafts)
         {
-            aircraft->move();
+            try
+            {
+                aircraft->move();
+            } catch (const AircraftCrash& err)
+            {
+                aircraft->_to_delete = true;
+                std::cerr << err.what() << std::endl;
+                crash_count++;
+            }
         }
 
         destroy_aircrafts();
@@ -55,11 +70,13 @@ public:
         unsigned int total = 0;
         for (const auto& aircraft : _aircrafts)
         {
-            if (aircraft->is_low_on_fuel() && aircraft->has_terminal())
+            if (aircraft->is_low_on_fuel() && aircraft->_is_at_terminal())
             {
-                total += aircraft->fuel;
+                total += 3000 - aircraft->fuel;
             }
         }
         return total;
     }
+
+    unsigned int get_crash_count() const { return crash_count; }
 };

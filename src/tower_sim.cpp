@@ -43,6 +43,9 @@ void TowerSimulation::create_keystrokes()
     GL::keystrokes.emplace('i', []() { GL::increase_ticks(1); });
     GL::keystrokes.emplace('o', []() { GL::increase_ticks(-1); });
     GL::keystrokes.emplace('p', []() { GL::pause_now(); });
+    GL::keystrokes.emplace(
+        'r',
+        [this]() { std::cout << "Crash count - " << this->aircraft_manager.get_crash_count() << std::endl; });
 
     for (size_t i = 0; i < 7; i++)
     {
