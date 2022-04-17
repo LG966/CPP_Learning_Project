@@ -38,7 +38,17 @@ private:
     void arrive_at_terminal();
     // deploy and retract landing gear depending on next waypoints
     void operate_landing_gear();
-    void add_waypoint(const Waypoint& wp, const bool front);
+    template <bool front> void add_waypoint(const Waypoint& wp)
+    {
+        if constexpr (front)
+        {
+            waypoints.push_front(wp);
+        }
+        else
+        {
+            waypoints.push_back(wp);
+        }
+    }
     bool is_on_ground() const { return pos.z() < DISTANCE_THRESHOLD; }
     float max_speed() const { return is_on_ground() ? type.max_ground_speed : type.max_air_speed; }
     bool has_terminal() const;
