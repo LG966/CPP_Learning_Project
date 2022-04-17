@@ -58,14 +58,14 @@ public:
 
     void add_aircraft(std::unique_ptr<Aircraft>& aircraft) { _aircrafts.emplace_back(std::move(aircraft)); }
 
-    int count_aircraft_with_airline(const std::string& airline)
+    int count_aircraft_with_airline(const std::string& airline) const
     {
         auto is_from_airline = [airline](const std::unique_ptr<Aircraft>& aircraft)
         { return (*aircraft).get_flight_num().rfind(airline, 0) != std::string::npos; };
         return std::count_if(_aircrafts.begin(), _aircrafts.end(), is_from_airline);
     }
 
-    unsigned int get_required_fuel()
+    unsigned int get_required_fuel() const
     {
         unsigned int total = 0;
         for (const auto& aircraft : _aircrafts)

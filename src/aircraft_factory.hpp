@@ -61,7 +61,7 @@ public:
             new AircraftType { max_ground_speed_, max_air_speed_, max_accel_, sprite });
     }
 
-    std::optional<std::string> get_nth_airline(const size_t n)
+    std::optional<std::string> get_nth_airline(const size_t n) const
     {
         if (n < _airlines.size())
         {

@@ -32,6 +32,6 @@ public:
     void arrived_at_terminal(const Aircraft& aircraft);
     WaypointQueue reserve_terminal(Aircraft& aircraft);
 
-    // uncondiotionnaly remove the aircraft
+    // unconditionally remove the aircraft
     void cancel_reservation_terminal(Aircraft& aircraft);
 };
