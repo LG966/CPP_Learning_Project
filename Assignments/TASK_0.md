@@ -79,6 +79,7 @@ Réalisez ensuite un schéma présentant comment ces différentes classes intér
 - `finish_service()` : fini le service et libère l'avion si il n'est plus servi
 - `move()` : fait progresser le service
 
+![NSv12W8n38NXjJd5eqkne5iNCjx12uJQqS8qaJI3U7ihCeAppfylsH0DpTbyhXETYptK7DiO4Gu15trcmn59nRb8-mygowitsMeHdbPPCXuTCVwC4y8jE_hORKvUL1f6qnfe4RxgVjSFBq3VktEZ8SlryzyR](https://user-images.githubusercontent.com/79719146/163730013-138b75c2-5b9e-47e6-bfe2-e245f867f191.png)
 
 Quelles classes et fonctions sont impliquées dans la génération du chemin d'un avion ?
 
