@@ -83,22 +83,29 @@ void TowerSimulation::display_help() const
 
 void TowerSimulation::init_airport()
 {
+    // make sure the function is called only one with this trick
+    static bool is_init = false;
+    assert(!is_init);
     airport =
         new Airport { one_lane_airport, Point3D { 0, 0, 0 },
                       new img::Image { one_lane_airport_sprite_path.get_full_path() }, aircraft_manager };
 
     // GL::display_queue.emplace_back(airport);
     GL::move_queue.emplace(airport);
+    is_init = true;
 }
 
 void TowerSimulation::init_aircraft_manager()
 {
+    static bool is_init = false;
+    assert(!is_init);
     std::vector<std::string> airlines { "AF", "LH", "EY", "DL", "KL", "BA", "AY", "EY" };
 
     aircraft_factory = new AircraftFactory(aircraft_manager, airlines, airport);
     aircraft_factory->create_aircraft_type(.02f, .05f, .02f, MediaPath { "l1011_48px.png" });
     aircraft_factory->create_aircraft_type(.02f, .05f, .02f, MediaPath { "b707_jat.png" });
     aircraft_factory->create_aircraft_type(.02f, .15f, .06f, MediaPath { "concorde_af.png" });
+    is_init = true;
 }
 
 void TowerSimulation::launch()

@@ -32,7 +32,9 @@ private:
 public:
     AircraftFactory(AircraftManager& aircraftManager, std::vector<std::string> airlines, Airport* airport) :
         _aircraftManager { aircraftManager }, _airport { airport }, _airlines { airlines }
-    {}
+    {
+        assert(airport != nullptr);
+    }
 
     void create_aircraft(const AircraftType& type)
     {

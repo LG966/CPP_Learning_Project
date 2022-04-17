@@ -75,11 +75,13 @@ public:
 
     void move() override
     {
+        assert(ordered_fuel <= MAX_FUEL_ORDER);
+
         if (next_refill_time == 0)
         {
             fuel_stock += ordered_fuel;
             std::cout << "Airport has received " << ordered_fuel << "l of fuel..." << std::endl;
-            ordered_fuel = std::min(5000, (int)_aircraft_manager.get_required_fuel());
+            ordered_fuel = std::min(MAX_FUEL_ORDER, _aircraft_manager.get_required_fuel());
             std::cout << "Ordered " << ordered_fuel << "l of fuel..." << std::endl;
             next_refill_time = 100;
             std::cout << "New stock : " << fuel_stock << "l of fuel..." << std::endl;

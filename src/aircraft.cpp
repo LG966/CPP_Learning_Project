@@ -92,6 +92,8 @@ void Aircraft::add_waypoint(const Waypoint& wp, const bool front)
 
 void Aircraft::move()
 {
+    assert(fuel >= 0);
+
     if (!waypoints.empty() && waypoints.back().type == wp_destroy)
     {
         _to_delete = true;
