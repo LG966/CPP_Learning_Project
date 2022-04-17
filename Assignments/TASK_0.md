@@ -35,21 +35,21 @@ Pour chacune d'entre elle, expliquez ce qu'elle représente et son rôle dans le
 
 Aircraft : C'est un avion. Il tourne dans le ciel, atterit, se ravitaille et repart de l'aéroport.
 
-Aircraft_types : Type d'avion. Il en existe plusieurs.
+Aircraft_types : Types d'avion. Il en existe plusieurs.
 
-Airport : Représente un aéroport. Il accueille des avions.
+Airport : Représente un aéroport. Il accueille des avions, possède des terminaux ainsi qu'une tour de contrôle.
 
 Config : Fichier de configuration. On y trouve des constantes qui sont utilisées dans le reste du code.
 
-Geometry : Petite librairie pour la géomitrie dans un plan (2D)
+Geometry : Petite librairie pour la géométrie dans un plan 2D ou 3D.
 
 Main : Permet de lancer le programme
 
 Runway : Piste d'atterrissage
 
-Terminal : Terminal d'atterrissage accueillant un avion à la fois. L'avion est service dedans.
+Terminal : Terminal accueillant un avion à la fois. L'avion attend un certain moment dedans, puis repart.
 
-Tower : Tour de contrôle, elle coordonne les avions.
+Tower : Tour de contrôle, elle coordonne les avions, en leur donnant des instructions sur quand et où atterrir par exemple.
 
 Tower_sim : C'est le programme global, coordonne la création des avions, les raccourcis clavier l'initialisation de l'airport ...
 
